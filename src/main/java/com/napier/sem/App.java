@@ -99,14 +99,15 @@ public class App
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT employees.emp_no, first_name, last_name, title, salary, dept_emp.dept_no, manager.dept_no "
-                            + "FROM employees "
-                            + "JOIN titles ON employees.emp_no=titles.emp_no "
-                            + "JOIN dept_emp ON dept_emp.emp_no=employees.emp_no "
-                            + "JOIN salaries ON salaries.emp_no=employees.emp_no "
-                            + "JOIN dept_manager ON dept_manager.emp_no=employees.emp_no "
-                            + "WHERE employees.emp_no = " + ID
-                            + " AND WHERE titles.to_date = " + "9999-01-01" ;
+
+            "SELECT employees.emp_no, first_name, last_name, title, salary, departments.dept_name "
+                + "FROM employees JOIN titles ON (employees.emp_no=titles.emp_no) "
+                + "JOIN salaries ON (employees.emp_no=salaries.emp_no) "
+                + "JOIN dept_emp ON (employees.emp_no=dept_emp.emp_no) "
+                + "JOIN departments ON (dept_emp.dept_no=departments.dept_no) "
+                + "WHERE employees.emp_no = " + ID
+                + " AND salaries.to_date = '9999-01-01'";
+
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Return new employee if valid.
@@ -119,8 +120,8 @@ public class App
                 emp.last_name = rset.getString("last_name");
                 emp.title = rset.getString("title");
                 emp.salary = rset.getInt("salary");
-                emp.dept_name = rset.getString("dept_emp.dept_no");
-                emp.manager = rset.getString("manager.dept_no");
+                emp.dept_name = rset.getString("departments.dept_name");
+                emp.manager = " Manager table doesn't make sense to me... :( ";
                 return emp;
             }
             else
@@ -150,3 +151,4 @@ public class App
     }
 
 }
+
