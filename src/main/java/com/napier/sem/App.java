@@ -243,8 +243,8 @@ public class App
                     + "JOIN titles ON (employees.emp_no=titles.emp_no) "
                     + "WHERE salaries.to_date = '9999-01-01' "
                     + "AND titles.to_date = '9999-01-01' "
-                    + "AND titles.title = " + role
-                    + " ORDER BY employees.emp_no ASC" ;
+                    + "AND titles.title = '" + role
+                    + "' ORDER BY employees.emp_no ASC" ;
 
             ResultSet rset = stmt.executeQuery(strSelect);
 
