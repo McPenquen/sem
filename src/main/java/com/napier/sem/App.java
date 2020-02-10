@@ -14,17 +14,24 @@ public class App
         // Connect to database
         a.connect();
 
-        Employee emp = a.getEmployee(255530);
-        // Display results
-        a.displayEmployee(emp);
+        //Get employee
+        //Employee emp = a.getEmployee(255530);
 
-        // Extract employee salary information
-        ArrayList<Employee> employees = a.getAllSalaries();
+        // Display employee
+        //a.displayEmployee(emp);
+
+        // Get all employees' salary information
+        //ArrayList<Employee> employees = a.getAllSalaries();
 
         // Test the size of the returned data - should be 240124
-        System.out.println("Number of employees: " + employees.size());
+        //System.out.println("Number of employees: " + employees.size());
 
-        a.printSalaries(employees);
+        //Display all employees' salary information
+        //a.printSalaries(employees);
+
+        //Get and display employees' salary by a role (eg: Engineer)
+        ArrayList<Employee> salaryByRoleList = a.getSalariesByRole("Engineer");
+        a.printSalaries(salaryByRoleList);
 
         // Disconnect from database
         a.disconnect();
@@ -214,6 +221,53 @@ public class App
                             emp.emp_no, emp.first_name, emp.last_name, emp.salary);
             System.out.println(emp_string);
         }
+    }
+
+    /**
+     * Get salaries by a role
+     * @param role The string of the role that the salary information is wanted for
+     * @return ArrayList of employees and their salary information
+     */
+    public ArrayList<Employee> getSalariesByRole(String role)
+    {
+
+        try
+        {
+            Statement stmt = con.createStatement();
+
+            ArrayList<Employee> salaryList = new ArrayList<Employee>();
+
+            String strSelect =
+                    "SELECT employees.emp_no, employees.first_name, employees.last_name, salaries.salary "
+                    + "FROM employees JOIN salaries ON (employees.emp_no=salaries.emp_no) "
+                    + "JOIN titles ON (employees.emp_no=titles.emp_no) "
+                    + "WHERE salaries.to_date = '9999-01-01' "
+                    + "AND titles.to_date = '9999-01-01' "
+                    + "AND titles.title = " + role
+                    + " ORDER BY employees.emp_no ASC" ;
+
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            while(rset.next())
+            {
+                Employee empl = new Employee();
+                empl.emp_no = rset.getInt("employees.emp_no");
+                empl.first_name = rset.getString("employees.first_name");
+                empl.last_name = rset.getString("employees.last_name");
+                empl.salary = rset.getInt("salaries.salary");
+                salaryList.add(empl);
+            }
+
+            return salaryList;
+
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to print the salaries by role...");
+            return null;
+        }
+
     }
 
 }
