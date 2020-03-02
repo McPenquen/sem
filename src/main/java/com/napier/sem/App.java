@@ -10,31 +10,20 @@ public class App {
         App a = new App();
 
         // Connect to database
-        a.connect("localhost:33060");
+        if (args.length < 1)
+        {
+            a.connect("localhost:3306");
+        }
+        else
+        {
+            a.connect(args[0]);
+        }
 
-        //Get employee
-        //Employee emp = a.getEmployee(255530);
+        Department dept = a.getDepartment("Sales");
+        ArrayList<Employee> employees = a.getSalariesByDepartment(dept);
 
-        // Display employee
-        //a.displayEmployee(emp);
-
-        // Get all employees' salary information
-        //ArrayList<Employee> employees = a.getAllSalaries();
-
-        // Test the size of the returned data - should be 240124
-        //System.out.println("Number of employees: " + employees.size());
-
-        //Display all employees' salary information
-        //a.printSalaries(employees);
-
-        //Get and display employees' salary by a role (eg: Engineer)
-        //ArrayList<Employee> salaryByRoleList = a.getSalariesByRole("Engineer");
-        //a.printSalaries(salaryByRoleList);
-
-       //Get and display employee's salary by department
-        Department dep = a.getDepartment("Sales");
-        ArrayList<Employee> salariesByDept = a.getSalariesByDepartment(dep);
-        a.printSalaries(salariesByDept);
+        // Print salary report
+        a.printSalaries(employees);
 
         // Disconnect from database
         a.disconnect();
