@@ -222,7 +222,6 @@ public class App {
             return;
         }
 
-
         // Print header
         System.out.println(String.format("%-10s %-15s %-20s %-8s", "Emp No", "First Name", "Last Name", "Salary"));
         // Loop over all employees in the list
