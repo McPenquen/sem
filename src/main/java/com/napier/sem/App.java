@@ -1,9 +1,16 @@
 package com.napier.sem;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.sql.*;
 import java.util.ArrayList;
 
-
+@SpringBootApplication
+@RestController
 public class App {
     public static void main(String[] args) {
         // Create new Application
@@ -19,6 +26,8 @@ public class App {
             a.connect(args[0]);
         }
 
+        SpringApplication.run(App.class, args);
+
         Department dept = a.getDepartment("Sales");
         ArrayList<Employee> employees = a.getSalariesByDepartment(dept);
 
@@ -32,12 +41,12 @@ public class App {
     /**
      * Connection to MySQL database.
      */
-    private Connection con = null;
+    private static Connection con = null;
 
     /**
      * Connect to the MySQL database.
      */
-    public void connect() {
+    public static void connect() {
         try {
             // Load Database driver
             Class.forName("com.mysql.jdbc.Driver");
@@ -67,7 +76,7 @@ public class App {
     /*
     * Connect with localhost specified in a string location
     **/
-    public void connect(String location)
+    public static void connect(String location)
     {
         try
         {
@@ -108,7 +117,7 @@ public class App {
     /**
      * Disconnect from the MySQL database.
      */
-    public void disconnect() {
+    public static void disconnect() {
         if (con != null) {
             try {
                 // Close connection
@@ -119,7 +128,13 @@ public class App {
         }
     }
 
-    public Employee getEmployee(int ID) {
+    /**
+     * Get a single employee record.
+     * @param ID emp_no of the employee record to get.
+     * @return The record of the employee with emp_no or null if no employee exists.
+     */
+    @RequestMapping("employee")
+    public Employee getEmployee(@RequestParam(value = "id") String ID){
 
         try {
             // Create an SQL statement
