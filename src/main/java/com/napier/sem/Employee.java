@@ -32,12 +32,12 @@ package com.napier.sem;
         /**
          * Employee's current department
          */
-        public String dept_name;
+        public Department dept;
 
         /**
          * Employee's manager
          */
-        public String manager;
+        public Employee manager;
     }
 
 

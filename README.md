@@ -3,7 +3,7 @@
 - Develop Build Status [![Build Status](https://travis-ci.org/McPenquen/sem.svg?branch=develop)](https://travis-ci.org/McPenquen/sem)
 - License [![LICENSE](https://img.shields.io/github/license/McPenquen/sem.svg?style=flat-square)](https://github.com/McPenquen/sem/blob/master/LICENSE)
 - Release [![Releases](https://img.shields.io/github/release/McPenquen/sem/all.svg?style=flat-square)](https://github.com/McPenquen/sem/releases)
-
+- Codecov [![codecov](https://codecov.io/gh/McPenquen/sem_practical/branch/master/graph/badge.svg)](https://codecov.io/gh/McPenquen/sem_practical)
 
 
 
